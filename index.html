@@ -172,12 +172,24 @@
   .svgchart rect { fill: var(--bar); }
   .svgchart text.axis { fill: var(--muted); font-size: 10px; }
 
+  /* Horizontal scroll container (great for phones) */
+  .scrollx {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+
+  /* Force heatmap to overflow on small screens instead of shrinking */
   .heatmap {
+    min-width: 980px;
     display: grid;
     grid-template-columns: 64px repeat(24, 1fr);
     gap: 6px;
     align-items: center;
   }
+
   .hm {
     font-size: 10px;
     color: var(--muted);
@@ -191,6 +203,9 @@
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.06);
   }
+
+
+ 
 
   .pills { display: flex; flex-wrap: wrap; gap: 8px; }
   .pill {
