@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Adam and Jason's 2025 iMessage Wrapped</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: rgba(17,21,33,0.86);
+    --text: #e8eaf0;
+    --muted: #a9afc3;
+    --accent: #7dd3fc;
+    --accent2: #a78bfa;
+    --bar: rgba(125, 211, 252, 0.88);
+    --border: rgba(255,255,255,0.10);
+    --shadow: rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    background:
+      radial-gradient(1200px 800px at 10% 0%, rgba(167,139,250,0.25), transparent 55%),
+      radial-gradient(1200px 800px at 90% 10%, rgba(125,211,252,0.22), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  .topbar {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1080px, calc(100vw - 24px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .title {
+    pointer-events: auto;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(15,18,32,0.55);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 25px var(--shadow);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .dots {
+    pointer-events: auto;
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(15,18,32,0.55);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 25px var(--shadow);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.22);
+  }
+  .dot.active {
+    background: var(--accent);
+  }
+
+  .story {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 600ms cubic-bezier(0.2, 0.85, 0.2, 1);
+    will-change: transform;
+  }
+
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    padding: 74px 16px 74px;
+    display: grid;
+    place-items: center;
+  }
+
+  .card {
+    width: min(1080px, calc(100vw - 24px));
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 18px 18px;
+    box-shadow: 0 10px 25px var(--shadow);
+    overflow: hidden;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: pop 650ms ease forwards;
+  }
+
+  @keyframes pop {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 34px;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .muted { color: var(--muted); }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .kpi {
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(15,18,32,0.55);
+    border-radius: 16px;
+    padding: 12px 12px;
+  }
+  .kpi .label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .kpi .val {
+    font-size: 20px;
+    margin-top: 6px;
+  }
+
+  .big {
+    font-size: 44px;
+    letter-spacing: -0.03em;
+    margin: 6px 0 6px;
+  }
+  .big .unit { font-size: 16px; color: var(--muted); margin-left: 8px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    vertical-align: top;
+  }
+  th {
+    text-align: left;
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .svgchart rect { fill: var(--bar); }
+  .svgchart text.axis { fill: var(--muted); font-size: 10px; }
+
+  .heatmap {
+    display: grid;
+    grid-template-columns: 64px repeat(24, 1fr);
+    gap: 6px;
+    align-items: center;
+  }
+  .hm {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .hmh { padding: 4px 0; }
+  .corner { height: 18px; }
+  .dlabel { text-align: left; padding-left: 6px; }
+  .cell {
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(15,18,32,0.55);
+  }
+  .pill .emoji { font-size: 18px; }
+  .pill .count { font-size: 12px; color: var(--muted); }
+
+  .rank-list {
+    margin-top: 10px;
+    padding-left: 22px;
+    columns: 2;
+    column-gap: 40px;
+  }
+  .rank-list li {
+    margin: 6px 0;
+    font-size: 14px;
+  }
+  .rank-list li strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .hint {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1080px, calc(100vw - 24px));
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 10;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    background: rgba(15,18,32,0.55);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    user-select: none;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  @media (max-width: 980px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .rank-list { columns: 1; }
+    .heatmap { grid-template-columns: 52px repeat(24, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background music (place wrapped_audio.mp3 next to report.html) -->
+<audio id="bgm" src="wrapped_audio.mp3" preload="auto" loop></audio>
+
+<div class="topbar">
+  <div class="title">Adam and Jason's 2025 iMessage Wrapped</div>
+  <div class="dots" id="dots"><div class='dot active'></div><div class='dot'></div><div class='dot'></div><div class='dot'></div><div class='dot'></div><div class='dot'></div><div class='dot'></div><div class='dot'></div></div>
+</div>
+
+<div class="story" id="story">
+    <div class="slide">
+      <div class="card">
+        <h1>Adam and Jason's 2025 iMessage Wrapped</h1>
+        <div class="muted" style="margin-top:8px;">Local-only recap. Use ← → or swipe.</div>
+        <div class="kpis">
+          <div class="kpi"><div class="label">Total messages</div><div class="val">8491</div></div>
+          <div class="kpi"><div class="label">Sent</div><div class="val">3610</div></div>
+          <div class="kpi"><div class="label">Received</div><div class="val">4881</div></div>
+          <div class="kpi"><div class="label">Unique chats</div><div class="val">3</div></div>
+        </div>
+        <div class="hint">Audio: click anywhere once, or hit the Audio button.</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>Your Year in Messages</h2>
+        <div class="muted">
+          Busiest day: <strong>2025-04-04 (117 msgs)</strong>
+          &nbsp;•&nbsp;
+          Most active hour: <strong>Friday 15:00 (253 msgs)</strong>
+        </div>
+        
+    <div style="margin-top:18px;">
+      <h2>Friendship Rank: 14</h2>
+      <ol class="rank-list">
+        <li>Molly Conlon</li>
+        <li>John Taylor</li>
+        <li>Philip Morgan</li>
+        <li>Adam Wehby</li>
+        <li>David Ambrose</li>
+        <li>Amanda Kuzma</li>
+        <li>Lauren Antia</li>
+        <li>Ben Weaver</li>
+        <li>Anthony Hall</li>
+        <li>Jessica Randazza</li>
+        <li>Claire Singson</li>
+        <li>Crystal Escano</li>
+        <li>Caroline Muren</li>
+        <li><strong>Adam Rogers</strong></li>
+        <li>Doireann ni Ghlacáin</li>
+        <li>Nathan Jones</li>
+        <li>Shawn Randazza</li>
+        <li>Charlon Grima</li>
+        <li>Gary Carlisle</li>
+        <li>Morgan Beard</li>
+      </ol>
+    </div>
+    
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>Monthly Trend</h2>
+        <div class="muted" style="margin-bottom:10px;">When it spiked, when it cooled off.</div>
+        <svg viewBox='0 0 980 260' class='svgchart' role='img' aria-label='Monthly messages'><g class='bars'><rect x='28' y='96' width='70' height='136' rx='4' /><text x='63.0' y='248' text-anchor='middle' class='axis'>01</text><rect x='105' y='93' width='70' height='139' rx='4' /><text x='140.0' y='248' text-anchor='middle' class='axis'>02</text><rect x='182' y='118' width='70' height='114' rx='4' /><text x='217.0' y='248' text-anchor='middle' class='axis'>03</text><rect x='259' y='28' width='70' height='204' rx='4' /><text x='294.0' y='248' text-anchor='middle' class='axis'>04</text><rect x='336' y='50' width='70' height='182' rx='4' /><text x='371.0' y='248' text-anchor='middle' class='axis'>05</text><rect x='413' y='74' width='70' height='158' rx='4' /><text x='448.0' y='248' text-anchor='middle' class='axis'>06</text><rect x='490' y='66' width='70' height='166' rx='4' /><text x='525.0' y='248' text-anchor='middle' class='axis'>07</text><rect x='567' y='60' width='70' height='172' rx='4' /><text x='602.0' y='248' text-anchor='middle' class='axis'>08</text><rect x='644' y='48' width='70' height='184' rx='4' /><text x='679.0' y='248' text-anchor='middle' class='axis'>09</text><rect x='721' y='32' width='70' height='200' rx='4' /><text x='756.0' y='248' text-anchor='middle' class='axis'>10</text><rect x='798' y='71' width='70' height='161' rx='4' /><text x='833.0' y='248' text-anchor='middle' class='axis'>11</text><rect x='875' y='47' width='70' height='185' rx='4' /><text x='910.0' y='248' text-anchor='middle' class='axis'>12</text></g></svg>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>Longest Silence</h2>
+        <div class="big">2<span class="unit">days</span></div>
+        <div class="muted">Between <strong>2025-03-08 → 2025-03-11</strong></div>
+        <div class="hint">Biggest gap between two consecutive messages in this dataset.</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>When You Text</h2>
+        <div class="muted" style="margin-bottom:10px;">Heatmap by day-of-week and hour.</div>
+        <div class='heatmap'><div class='hm corner'></div><div class='hm hmh'>00</div><div class='hm hmh'>01</div><div class='hm hmh'>02</div><div class='hm hmh'>03</div><div class='hm hmh'>04</div><div class='hm hmh'>05</div><div class='hm hmh'>06</div><div class='hm hmh'>07</div><div class='hm hmh'>08</div><div class='hm hmh'>09</div><div class='hm hmh'>10</div><div class='hm hmh'>11</div><div class='hm hmh'>12</div><div class='hm hmh'>13</div><div class='hm hmh'>14</div><div class='hm hmh'>15</div><div class='hm hmh'>16</div><div class='hm hmh'>17</div><div class='hm hmh'>18</div><div class='hm hmh'>19</div><div class='hm hmh'>20</div><div class='hm hmh'>21</div><div class='hm hmh'>22</div><div class='hm hmh'>23</div><div class='hm dlabel'>Mon</div><div class='hm cell' title='Monday 00:00 — 90 msgs' style='background-color: rgba(167, 139, 250, 0.621);'></div><div class='hm cell' title='Monday 01:00 — 83 msgs' style='background-color: rgba(167, 139, 250, 0.598);'></div><div class='hm cell' title='Monday 02:00 — 53 msgs' style='background-color: rgba(167, 139, 250, 0.490);'></div><div class='hm cell' title='Monday 03:00 — 15 msgs' style='background-color: rgba(167, 139, 250, 0.289);'></div><div class='hm cell' title='Monday 04:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 05:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 07:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 08:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 09:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Monday 10:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Monday 11:00 — 9 msgs' style='background-color: rgba(167, 139, 250, 0.237);'></div><div class='hm cell' title='Monday 12:00 — 80 msgs' style='background-color: rgba(167, 139, 250, 0.589);'></div><div class='hm cell' title='Monday 13:00 — 128 msgs' style='background-color: rgba(167, 139, 250, 0.729);'></div><div class='hm cell' title='Monday 14:00 — 166 msgs' style='background-color: rgba(167, 139, 250, 0.821);'></div><div class='hm cell' title='Monday 15:00 — 177 msgs' style='background-color: rgba(167, 139, 250, 0.846);'></div><div class='hm cell' title='Monday 16:00 — 92 msgs' style='background-color: rgba(167, 139, 250, 0.627);'></div><div class='hm cell' title='Monday 17:00 — 59 msgs' style='background-color: rgba(167, 139, 250, 0.514);'></div><div class='hm cell' title='Monday 18:00 — 136 msgs' style='background-color: rgba(167, 139, 250, 0.749);'></div><div class='hm cell' title='Monday 19:00 — 69 msgs' style='background-color: rgba(167, 139, 250, 0.551);'></div><div class='hm cell' title='Monday 20:00 — 84 msgs' style='background-color: rgba(167, 139, 250, 0.602);'></div><div class='hm cell' title='Monday 21:00 — 53 msgs' style='background-color: rgba(167, 139, 250, 0.490);'></div><div class='hm cell' title='Monday 22:00 — 55 msgs' style='background-color: rgba(167, 139, 250, 0.498);'></div><div class='hm cell' title='Monday 23:00 — 21 msgs' style='background-color: rgba(167, 139, 250, 0.331);'></div><div class='hm dlabel'>Tue</div><div class='hm cell' title='Tuesday 00:00 — 14 msgs' style='background-color: rgba(167, 139, 250, 0.281);'></div><div class='hm cell' title='Tuesday 01:00 — 36 msgs' style='background-color: rgba(167, 139, 250, 0.415);'></div><div class='hm cell' title='Tuesday 02:00 — 6 msgs' style='background-color: rgba(167, 139, 250, 0.205);'></div><div class='hm cell' title='Tuesday 03:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Tuesday 04:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Tuesday 05:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Tuesday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Tuesday 07:00 — 2 msgs' style='background-color: rgba(167, 139, 250, 0.144);'></div><div class='hm cell' title='Tuesday 08:00 — 2 msgs' style='background-color: rgba(167, 139, 250, 0.144);'></div><div class='hm cell' title='Tuesday 09:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Tuesday 10:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Tuesday 11:00 — 13 msgs' style='background-color: rgba(167, 139, 250, 0.273);'></div><div class='hm cell' title='Tuesday 12:00 — 69 msgs' style='background-color: rgba(167, 139, 250, 0.551);'></div><div class='hm cell' title='Tuesday 13:00 — 144 msgs' style='background-color: rgba(167, 139, 250, 0.769);'></div><div class='hm cell' title='Tuesday 14:00 — 111 msgs' style='background-color: rgba(167, 139, 250, 0.683);'></div><div class='hm cell' title='Tuesday 15:00 — 134 msgs' style='background-color: rgba(167, 139, 250, 0.744);'></div><div class='hm cell' title='Tuesday 16:00 — 73 msgs' style='background-color: rgba(167, 139, 250, 0.565);'></div><div class='hm cell' title='Tuesday 17:00 — 55 msgs' style='background-color: rgba(167, 139, 250, 0.498);'></div><div class='hm cell' title='Tuesday 18:00 — 58 msgs' style='background-color: rgba(167, 139, 250, 0.510);'></div><div class='hm cell' title='Tuesday 19:00 — 45 msgs' style='background-color: rgba(167, 139, 250, 0.456);'></div><div class='hm cell' title='Tuesday 20:00 — 42 msgs' style='background-color: rgba(167, 139, 250, 0.443);'></div><div class='hm cell' title='Tuesday 21:00 — 42 msgs' style='background-color: rgba(167, 139, 250, 0.443);'></div><div class='hm cell' title='Tuesday 22:00 — 25 msgs' style='background-color: rgba(167, 139, 250, 0.355);'></div><div class='hm cell' title='Tuesday 23:00 — 56 msgs' style='background-color: rgba(167, 139, 250, 0.502);'></div><div class='hm dlabel'>Wed</div><div class='hm cell' title='Wednesday 00:00 — 37 msgs' style='background-color: rgba(167, 139, 250, 0.419);'></div><div class='hm cell' title='Wednesday 01:00 — 32 msgs' style='background-color: rgba(167, 139, 250, 0.394);'></div><div class='hm cell' title='Wednesday 02:00 — 38 msgs' style='background-color: rgba(167, 139, 250, 0.424);'></div><div class='hm cell' title='Wednesday 03:00 — 3 msgs' style='background-color: rgba(167, 139, 250, 0.162);'></div><div class='hm cell' title='Wednesday 04:00 — 3 msgs' style='background-color: rgba(167, 139, 250, 0.162);'></div><div class='hm cell' title='Wednesday 05:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Wednesday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Wednesday 07:00 — 2 msgs' style='background-color: rgba(167, 139, 250, 0.144);'></div><div class='hm cell' title='Wednesday 08:00 — 10 msgs' style='background-color: rgba(167, 139, 250, 0.247);'></div><div class='hm cell' title='Wednesday 09:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Wednesday 10:00 — 16 msgs' style='background-color: rgba(167, 139, 250, 0.296);'></div><div class='hm cell' title='Wednesday 11:00 — 105 msgs' style='background-color: rgba(167, 139, 250, 0.666);'></div><div class='hm cell' title='Wednesday 12:00 — 183 msgs' style='background-color: rgba(167, 139, 250, 0.859);'></div><div class='hm cell' title='Wednesday 13:00 — 119 msgs' style='background-color: rgba(167, 139, 250, 0.705);'></div><div class='hm cell' title='Wednesday 14:00 — 184 msgs' style='background-color: rgba(167, 139, 250, 0.862);'></div><div class='hm cell' title='Wednesday 15:00 — 156 msgs' style='background-color: rgba(167, 139, 250, 0.798);'></div><div class='hm cell' title='Wednesday 16:00 — 67 msgs' style='background-color: rgba(167, 139, 250, 0.544);'></div><div class='hm cell' title='Wednesday 17:00 — 86 msgs' style='background-color: rgba(167, 139, 250, 0.608);'></div><div class='hm cell' title='Wednesday 18:00 — 73 msgs' style='background-color: rgba(167, 139, 250, 0.565);'></div><div class='hm cell' title='Wednesday 19:00 — 77 msgs' style='background-color: rgba(167, 139, 250, 0.579);'></div><div class='hm cell' title='Wednesday 20:00 — 73 msgs' style='background-color: rgba(167, 139, 250, 0.565);'></div><div class='hm cell' title='Wednesday 21:00 — 94 msgs' style='background-color: rgba(167, 139, 250, 0.633);'></div><div class='hm cell' title='Wednesday 22:00 — 59 msgs' style='background-color: rgba(167, 139, 250, 0.514);'></div><div class='hm cell' title='Wednesday 23:00 — 49 msgs' style='background-color: rgba(167, 139, 250, 0.474);'></div><div class='hm dlabel'>Thu</div><div class='hm cell' title='Thursday 00:00 — 29 msgs' style='background-color: rgba(167, 139, 250, 0.378);'></div><div class='hm cell' title='Thursday 01:00 — 40 msgs' style='background-color: rgba(167, 139, 250, 0.434);'></div><div class='hm cell' title='Thursday 02:00 — 2 msgs' style='background-color: rgba(167, 139, 250, 0.144);'></div><div class='hm cell' title='Thursday 03:00 — 11 msgs' style='background-color: rgba(167, 139, 250, 0.256);'></div><div class='hm cell' title='Thursday 04:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Thursday 05:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Thursday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Thursday 07:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Thursday 08:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Thursday 09:00 — 19 msgs' style='background-color: rgba(167, 139, 250, 0.318);'></div><div class='hm cell' title='Thursday 10:00 — 3 msgs' style='background-color: rgba(167, 139, 250, 0.162);'></div><div class='hm cell' title='Thursday 11:00 — 20 msgs' style='background-color: rgba(167, 139, 250, 0.324);'></div><div class='hm cell' title='Thursday 12:00 — 45 msgs' style='background-color: rgba(167, 139, 250, 0.456);'></div><div class='hm cell' title='Thursday 13:00 — 134 msgs' style='background-color: rgba(167, 139, 250, 0.744);'></div><div class='hm cell' title='Thursday 14:00 — 163 msgs' style='background-color: rgba(167, 139, 250, 0.815);'></div><div class='hm cell' title='Thursday 15:00 — 122 msgs' style='background-color: rgba(167, 139, 250, 0.713);'></div><div class='hm cell' title='Thursday 16:00 — 112 msgs' style='background-color: rgba(167, 139, 250, 0.685);'></div><div class='hm cell' title='Thursday 17:00 — 96 msgs' style='background-color: rgba(167, 139, 250, 0.639);'></div><div class='hm cell' title='Thursday 18:00 — 49 msgs' style='background-color: rgba(167, 139, 250, 0.474);'></div><div class='hm cell' title='Thursday 19:00 — 133 msgs' style='background-color: rgba(167, 139, 250, 0.742);'></div><div class='hm cell' title='Thursday 20:00 — 91 msgs' style='background-color: rgba(167, 139, 250, 0.624);'></div><div class='hm cell' title='Thursday 21:00 — 70 msgs' style='background-color: rgba(167, 139, 250, 0.554);'></div><div class='hm cell' title='Thursday 22:00 — 93 msgs' style='background-color: rgba(167, 139, 250, 0.630);'></div><div class='hm cell' title='Thursday 23:00 — 115 msgs' style='background-color: rgba(167, 139, 250, 0.694);'></div><div class='hm dlabel'>Fri</div><div class='hm cell' title='Friday 00:00 — 60 msgs' style='background-color: rgba(167, 139, 250, 0.518);'></div><div class='hm cell' title='Friday 01:00 — 49 msgs' style='background-color: rgba(167, 139, 250, 0.474);'></div><div class='hm cell' title='Friday 02:00 — 33 msgs' style='background-color: rgba(167, 139, 250, 0.399);'></div><div class='hm cell' title='Friday 03:00 — 24 msgs' style='background-color: rgba(167, 139, 250, 0.350);'></div><div class='hm cell' title='Friday 04:00 — 37 msgs' style='background-color: rgba(167, 139, 250, 0.419);'></div><div class='hm cell' title='Friday 05:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Friday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Friday 07:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Friday 08:00 — 2 msgs' style='background-color: rgba(167, 139, 250, 0.144);'></div><div class='hm cell' title='Friday 09:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Friday 10:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Friday 11:00 — 10 msgs' style='background-color: rgba(167, 139, 250, 0.247);'></div><div class='hm cell' title='Friday 12:00 — 53 msgs' style='background-color: rgba(167, 139, 250, 0.490);'></div><div class='hm cell' title='Friday 13:00 — 174 msgs' style='background-color: rgba(167, 139, 250, 0.840);'></div><div class='hm cell' title='Friday 14:00 — 144 msgs' style='background-color: rgba(167, 139, 250, 0.769);'></div><div class='hm cell' title='Friday 15:00 — 253 msgs' style='background-color: rgba(167, 139, 250, 1.000);'></div><div class='hm cell' title='Friday 16:00 — 143 msgs' style='background-color: rgba(167, 139, 250, 0.767);'></div><div class='hm cell' title='Friday 17:00 — 105 msgs' style='background-color: rgba(167, 139, 250, 0.666);'></div><div class='hm cell' title='Friday 18:00 — 121 msgs' style='background-color: rgba(167, 139, 250, 0.710);'></div><div class='hm cell' title='Friday 19:00 — 62 msgs' style='background-color: rgba(167, 139, 250, 0.525);'></div><div class='hm cell' title='Friday 20:00 — 44 msgs' style='background-color: rgba(167, 139, 250, 0.452);'></div><div class='hm cell' title='Friday 21:00 — 81 msgs' style='background-color: rgba(167, 139, 250, 0.592);'></div><div class='hm cell' title='Friday 22:00 — 29 msgs' style='background-color: rgba(167, 139, 250, 0.378);'></div><div class='hm cell' title='Friday 23:00 — 73 msgs' style='background-color: rgba(167, 139, 250, 0.565);'></div><div class='hm dlabel'>Sat</div><div class='hm cell' title='Saturday 00:00 — 64 msgs' style='background-color: rgba(167, 139, 250, 0.533);'></div><div class='hm cell' title='Saturday 01:00 — 38 msgs' style='background-color: rgba(167, 139, 250, 0.424);'></div><div class='hm cell' title='Saturday 02:00 — 26 msgs' style='background-color: rgba(167, 139, 250, 0.361);'></div><div class='hm cell' title='Saturday 03:00 — 10 msgs' style='background-color: rgba(167, 139, 250, 0.247);'></div><div class='hm cell' title='Saturday 04:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Saturday 05:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Saturday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Saturday 07:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Saturday 08:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Saturday 09:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Saturday 10:00 — 20 msgs' style='background-color: rgba(167, 139, 250, 0.324);'></div><div class='hm cell' title='Saturday 11:00 — 66 msgs' style='background-color: rgba(167, 139, 250, 0.540);'></div><div class='hm cell' title='Saturday 12:00 — 65 msgs' style='background-color: rgba(167, 139, 250, 0.536);'></div><div class='hm cell' title='Saturday 13:00 — 65 msgs' style='background-color: rgba(167, 139, 250, 0.536);'></div><div class='hm cell' title='Saturday 14:00 — 61 msgs' style='background-color: rgba(167, 139, 250, 0.522);'></div><div class='hm cell' title='Saturday 15:00 — 80 msgs' style='background-color: rgba(167, 139, 250, 0.589);'></div><div class='hm cell' title='Saturday 16:00 — 74 msgs' style='background-color: rgba(167, 139, 250, 0.568);'></div><div class='hm cell' title='Saturday 17:00 — 72 msgs' style='background-color: rgba(167, 139, 250, 0.561);'></div><div class='hm cell' title='Saturday 18:00 — 74 msgs' style='background-color: rgba(167, 139, 250, 0.568);'></div><div class='hm cell' title='Saturday 19:00 — 40 msgs' style='background-color: rgba(167, 139, 250, 0.434);'></div><div class='hm cell' title='Saturday 20:00 — 49 msgs' style='background-color: rgba(167, 139, 250, 0.474);'></div><div class='hm cell' title='Saturday 21:00 — 106 msgs' style='background-color: rgba(167, 139, 250, 0.668);'></div><div class='hm cell' title='Saturday 22:00 — 65 msgs' style='background-color: rgba(167, 139, 250, 0.536);'></div><div class='hm cell' title='Saturday 23:00 — 44 msgs' style='background-color: rgba(167, 139, 250, 0.452);'></div><div class='hm dlabel'>Sun</div><div class='hm cell' title='Sunday 00:00 — 32 msgs' style='background-color: rgba(167, 139, 250, 0.394);'></div><div class='hm cell' title='Sunday 01:00 — 39 msgs' style='background-color: rgba(167, 139, 250, 0.429);'></div><div class='hm cell' title='Sunday 02:00 — 43 msgs' style='background-color: rgba(167, 139, 250, 0.448);'></div><div class='hm cell' title='Sunday 03:00 — 14 msgs' style='background-color: rgba(167, 139, 250, 0.281);'></div><div class='hm cell' title='Sunday 04:00 — 5 msgs' style='background-color: rgba(167, 139, 250, 0.192);'></div><div class='hm cell' title='Sunday 05:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Sunday 06:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Sunday 07:00 — 0 msgs' style='background-color: rgba(167, 139, 250, 0.060);'></div><div class='hm cell' title='Sunday 08:00 — 3 msgs' style='background-color: rgba(167, 139, 250, 0.162);'></div><div class='hm cell' title='Sunday 09:00 — 1 msgs' style='background-color: rgba(167, 139, 250, 0.119);'></div><div class='hm cell' title='Sunday 10:00 — 8 msgs' style='background-color: rgba(167, 139, 250, 0.227);'></div><div class='hm cell' title='Sunday 11:00 — 37 msgs' style='background-color: rgba(167, 139, 250, 0.419);'></div><div class='hm cell' title='Sunday 12:00 — 41 msgs' style='background-color: rgba(167, 139, 250, 0.438);'></div><div class='hm cell' title='Sunday 13:00 — 26 msgs' style='background-color: rgba(167, 139, 250, 0.361);'></div><div class='hm cell' title='Sunday 14:00 — 71 msgs' style='background-color: rgba(167, 139, 250, 0.558);'></div><div class='hm cell' title='Sunday 15:00 — 96 msgs' style='background-color: rgba(167, 139, 250, 0.639);'></div><div class='hm cell' title='Sunday 16:00 — 68 msgs' style='background-color: rgba(167, 139, 250, 0.547);'></div><div class='hm cell' title='Sunday 17:00 — 28 msgs' style='background-color: rgba(167, 139, 250, 0.373);'></div><div class='hm cell' title='Sunday 18:00 — 59 msgs' style='background-color: rgba(167, 139, 250, 0.514);'></div><div class='hm cell' title='Sunday 19:00 — 54 msgs' style='background-color: rgba(167, 139, 250, 0.494);'></div><div class='hm cell' title='Sunday 20:00 — 53 msgs' style='background-color: rgba(167, 139, 250, 0.490);'></div><div class='hm cell' title='Sunday 21:00 — 35 msgs' style='background-color: rgba(167, 139, 250, 0.410);'></div><div class='hm cell' title='Sunday 22:00 — 57 msgs' style='background-color: rgba(167, 139, 250, 0.506);'></div><div class='hm cell' title='Sunday 23:00 — 61 msgs' style='background-color: rgba(167, 139, 250, 0.522);'></div></div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>Top Conversations</h2>
+        <table><thead><tr><th>Chat</th><th>Messages</th><th>Sent</th><th>Received</th></tr></thead><tbody><tr><td>+12053327282</td><td>8073</td><td>3432</td><td>4641</td></tr><tr><td>The Great Saunter</td><td>412</td><td>178</td><td>234</td></tr><tr><td>The Great Saunter</td><td>6</td><td>0</td><td>6</td></tr></tbody></table>
+        <div style="height:14px;"></div>
+        <h2>Top Contacts (Received)</h2>
+        <table><thead><tr><th>From</th><th>Received msgs</th></tr></thead><tbody><tr><td>12053327282</td><td>4881</td></tr></tbody></table>
+        <div class="hint">Received-side ranking is the most reliable contact mapping in the DB.</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>Emoji Hall of Fame</h2>
+        <div class='pills'><div class='pill'><span class='emoji'>😳</span><span class='count'>9</span></div><div class='pill'><span class='emoji'>😂</span><span class='count'>9</span></div><div class='pill'><span class='emoji'>♂</span><span class='count'>8</span></div><div class='pill'><span class='emoji'>🔥</span><span class='count'>6</span></div><div class='pill'><span class='emoji'>🍑</span><span class='count'>6</span></div><div class='pill'><span class='emoji'>🤦</span><span class='count'>5</span></div><div class='pill'><span class='emoji'>🤞</span><span class='count'>4</span></div><div class='pill'><span class='emoji'>🙏</span><span class='count'>4</span></div><div class='pill'><span class='emoji'>👀</span><span class='count'>4</span></div><div class='pill'><span class='emoji'>🤔</span><span class='count'>3</span></div><div class='pill'><span class='emoji'>💯</span><span class='count'>3</span></div><div class='pill'><span class='emoji'>✅</span><span class='count'>3</span></div></div>
+        <div style="height:18px;"></div>
+        <h2>Media & Attachments</h2>
+        <div class="muted">Total attachments: <strong>830</strong></div>
+        <div style="height:10px;"></div>
+        <table><thead><tr><th>MIME type</th><th>Count</th></tr></thead><tbody><tr><td>image/jpeg</td><td>261</td></tr><tr><td>image/heic</td><td>165</td></tr><tr><td>image/png</td><td>113</td></tr><tr><td>image/gif</td><td>33</td></tr><tr><td>video/quicktime</td><td>16</td></tr><tr><td>application/pdf</td><td>2</td></tr></tbody></table>
+        <div class="hint">No “top chats for attachments” section (removed).</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <div class="card">
+        <h2>That’s the Wrapped.</h2>
+        <div class="muted">Generated locally. Share wisely.</div>
+        <div class="hint">Next upgrades: auto-advance like stories, per-slide fade-ins, safe ambient generator.</div>
+      </div>
+    </div>
+    </div>
+
+<div class="nav">
+  <button class="btn" id="prevBtn">← Prev</button>
+  <button class="btn" id="audioBtn">🔇 Audio</button>
+  <button class="btn" id="nextBtn">Next →</button>
+</div>
+
+<script>
+  const story = document.getElementById("story");
+  const dots = Array.from(document.querySelectorAll(".dot"));
+  const slidesCount = 8;
+  let index = 0;
+
+  function setActiveDot() {
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  }
+
+  function showSlide(i) {
+    index = Math.max(0, Math.min(i, slidesCount - 1));
+    story.style.transform = `translateX(${-index * 100}vw)`;
+    setActiveDot();
+  }
+
+  document.getElementById("prevBtn").addEventListener("click", () => showSlide(index - 1));
+  document.getElementById("nextBtn").addEventListener("click", () => showSlide(index + 1));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") showSlide(index + 1);
+    if (e.key === "ArrowLeft") showSlide(index - 1);
+  });
+
+  // Swipe support
+  let startX = null;
+  let isDown = false;
+
+  function onDown(x) { startX = x; isDown = true; }
+  function onUp(x) {
+    if (!isDown || startX === null) return;
+    const dx = x - startX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) showSlide(index + 1);
+      else showSlide(index - 1);
+    }
+    startX = null;
+    isDown = false;
+  }
+
+  window.addEventListener("touchstart", (e) => onDown(e.touches[0].clientX), {passive:true});
+  window.addEventListener("touchend", (e) => onUp((e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : 0), {passive:true});
+  window.addEventListener("mousedown", (e) => onDown(e.clientX));
+  window.addEventListener("mouseup", (e) => onUp(e.clientX));
+
+  // Audio toggle (requires user gesture)
+  const bgm = document.getElementById("bgm");
+  const audioBtn = document.getElementById("audioBtn");
+  let audioOn = false;
+
+  async function toggleAudio() {
+    if (!bgm) return;
+    try {
+      if (!audioOn) {
+        await bgm.play();
+        audioOn = true;
+        if (audioBtn) audioBtn.textContent = "🔊 Audio";
+      } else {
+        bgm.pause();
+        audioOn = false;
+        if (audioBtn) audioBtn.textContent = "🔇 Audio";
+      }
+    } catch (e) {
+      console.log("Audio blocked until user gesture:", e);
+    }
+  }
+
+  if (audioBtn) audioBtn.addEventListener("click", toggleAudio);
+
+  // Optional: start audio on first click anywhere (one-time)
+  window.addEventListener("click", () => {
+    if (!audioOn) toggleAudio();
+  }, { once: true });
+
+  // init
+  showSlide(0);
+</script>
+
+</body>
+</html>
